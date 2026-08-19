@@ -1,0 +1,12 @@
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import type { Schedule } from '../../types/workspace'
+
+type ScheduleDialogProps = { schedule: Schedule | null; defaultDay: number; onClose: () => void; onSave: (schedule: Omit<Schedule,'id'> & { id?: string }) => Promise<void> }
+
+export function ScheduleDialog({ schedule, defaultDay, onClose, onSave }: ScheduleDialogProps) {
+  const [draft, setDraft] = useState(() => schedule ? { day:schedule.day, date:schedule.date, time:schedule.time, title:schedule.title, location:schedule.location, note:schedule.note } : { day:defaultDay, date:'', time:'09:00', title:'', location:'', note:'' })
+  const [saving, setSaving] = useState(false)
+  async function submit(event: FormEvent) { event.preventDefault(); setSaving(true); try { await onSave({ ...draft, ...(schedule ? { id:schedule.id } : {}) }); onClose() } finally { setSaving(false) } }
+  return <div className="dialog-backdrop" role="presentation" onMouseDown={onClose}><section className="schedule-dialog" role="dialog" aria-modal="true" aria-labelledby="schedule-dialog-title" onMouseDown={e => e.stopPropagation()}><header><div><p className="eyebrow">EDIT TOGETHER</p><h2 id="schedule-dialog-title">{schedule ? '루트 수정하기' : '루트 추가하기'}</h2></div><button className="dialog-close" type="button" onClick={onClose}>×</button></header><form onSubmit={submit}><div className="dialog-row"><label><span>여행 일차</span><input type="number" min="1" value={draft.day} onChange={e => setDraft({ ...draft, day:Number(e.target.value) })} required /></label><label><span>날짜 표시</span><input value={draft.date} onChange={e => setDraft({ ...draft, date:e.target.value })} placeholder="8월 28일" required /></label><label><span>시간</span><input type="time" value={draft.time} onChange={e => setDraft({ ...draft, time:e.target.value })} required /></label></div><label><span>장소</span><input value={draft.location} onChange={e => setDraft({ ...draft, location:e.target.value })} placeholder="장소 이름" required /></label><label><span>일정 제목</span><input value={draft.title} onChange={e => setDraft({ ...draft, title:e.target.value })} placeholder="무엇을 할까요?" required /></label><label><span>메모</span><textarea value={draft.note} onChange={e => setDraft({ ...draft, note:e.target.value })} placeholder="준비물이나 함께 알아둘 내용" /></label><div className="dialog-buttons"><button type="button" onClick={onClose}>취소</button><button className="primary-button" disabled={saving}>{saving ? '저장 중…' : '저장하기'}</button></div></form></section></div>
+}

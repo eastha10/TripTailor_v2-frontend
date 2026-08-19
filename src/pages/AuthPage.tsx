@@ -5,7 +5,7 @@ import { Brand } from '../components/layout/Brand'
 import { login, signup } from '../services/authService'
 import type { AuthMode } from '../types/auth'
 
-export function AuthPage({ initialMode }: { initialMode: AuthMode }) {
+export function AuthPage({ initialMode, next }: { initialMode: AuthMode; next: string }) {
   const [mode, setMode] = useState<AuthMode>(initialMode)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -17,7 +17,7 @@ export function AuthPage({ initialMode }: { initialMode: AuthMode }) {
 
   function changeMode(nextMode: AuthMode) {
     setMode(nextMode); setMessage({ text: '', success: false }); setPassword(''); setPasswordConfirm('')
-    window.history.replaceState({}, '', `/?auth=${nextMode}`)
+    window.history.replaceState({}, '', `/?auth=${nextMode}&next=${encodeURIComponent(next)}`)
   }
 
   async function submit(event: FormEvent) {
@@ -27,7 +27,7 @@ export function AuthPage({ initialMode }: { initialMode: AuthMode }) {
     setLoading(true); setMessage({ text: '', success: false })
     try {
       if (mode === 'signup') { await signup({ name, email, password }); changeMode('login'); setMessage({ text: '가입이 완료됐어요. 이제 로그인해 주세요.', success: true }); return }
-      await login({ email, password }); window.location.assign('/')
+      await login({ email, password }); window.location.assign(next)
     } catch (cause) { setMessage({ text: cause instanceof Error ? cause.message : '잠시 후 다시 시도해 주세요.', success: false }) }
     finally { setLoading(false) }
   }

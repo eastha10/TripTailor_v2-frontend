@@ -1,0 +1,19 @@
+.survey-page { min-height:100svh; background:var(--mist); }
+.survey { width:min(950px,calc(100% - 40px)); margin:60px auto 0; padding-bottom:70px; }
+.invite-intro,.survey-card { border:1px solid var(--line); border-radius:26px; background:#fff; }
+.invite-intro { border-top:14px solid var(--green); padding:42px 38px; margin-bottom:24px; }
+.invite-intro>p:first-child { color:var(--green); font-weight:600; }
+.invite-intro h1 { margin:8px 0 20px; }
+.invite-intro h1 .brand { font-size:2.7rem; }
+.invite-intro>p { color:var(--muted); }
+.people-pill { display:inline-block; margin-top:25px; padding:10px 19px; border-radius:30px; background:#e8f1e5; color:var(--green-dark); font-weight:700; }
+.survey-card { display:block; margin:24px 0; padding:36px; }
+.survey-card strong,.survey-card legend { color:var(--ink); font-size:1.08rem; font-weight:700; }
+.survey-card strong i { color:#d54a3c; font-style:normal; }
+.survey-card small { display:block; margin-top:6px; color:var(--muted); }
+.survey-card>input { width:100%; margin-top:32px; padding:15px 0; border:0; border-bottom:1px solid var(--line); outline:0; font-size:1rem; }
+.radio-row { display:flex; align-items:center; gap:14px; margin-top:23px; cursor:pointer; }
+.radio-row input { width:22px; height:22px; accent-color:var(--green); }
+.submit-button { display:block; margin:34px 0 0 auto; padding:17px 38px; }
+@media(max-width:980px){.survey{margin-top:30px}}
+@media(max-width:560px){.survey{width:min(100% - 24px,950px)}.invite-intro,.survey-card{padding:26px 22px;border-radius:20px}.submit-button{width:100%}}

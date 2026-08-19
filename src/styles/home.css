@@ -1,0 +1,8 @@
+.hero-section { position:relative; min-height:100svh; background-size:cover; background-position:center; color:#fff; display:grid; place-items:center; }
+.hero-content { text-align:center; margin-top:5vh; text-shadow:0 3px 28px rgba(0,0,0,.32); }
+.hero-content h1 { font-family:'DM Serif Display',Georgia,serif; font-size:clamp(5rem,10.5vw,10.5rem); line-height:.9; font-weight:400; letter-spacing:-.055em; margin:22px 0 32px; }
+.hero-content>p:last-child { font-size:clamp(1.35rem,2.2vw,2.1rem); font-style:italic; }
+.scroll-cue { position:absolute; bottom:35px; display:grid; justify-items:center; gap:9px; font-size:.8rem; }
+.scroll-cue>span { width:46px; height:4px; border-radius:5px; background:#fff; box-shadow:22px 0 rgba(255,255,255,.45),36px 0 rgba(255,255,255,.3); margin-right:36px; }
+.scroll-cue b { font-size:1.4rem; font-weight:400; }
+@media(max-width:560px){.hero-content h1{font-size:4.6rem}.hero-content .eyebrow{letter-spacing:.16em}}

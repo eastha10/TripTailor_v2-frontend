@@ -15,5 +15,11 @@
 .radio-row { display:flex; align-items:center; gap:14px; margin-top:23px; cursor:pointer; }
 .radio-row input { width:22px; height:22px; accent-color:var(--green); }
 .submit-button { display:block; margin:34px 0 0 auto; padding:17px 38px; }
+.invitation-card { text-align:left; }
+.invitation-card dl { margin:30px 0; padding:20px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.invitation-card dl div { display:flex; justify-content:space-between; gap:24px; padding:8px 0; }
+.invitation-card dt { color:var(--muted); }
+.invitation-card dd { margin:0; color:var(--ink); font-weight:700; text-align:right; }
+.invitation-card .primary-button { width:100%; }
 @media(max-width:980px){.survey{margin-top:30px}}
 @media(max-width:560px){.survey{width:min(100% - 24px,950px)}.invite-intro,.survey-card{padding:26px 22px;border-radius:20px}.submit-button{width:100%}}

@@ -1,2 +1,38 @@
-export type TripDraft = { people: number; region: string; startDate: string; endDate: string }
-export type TripResponse = { tripId?: string | number; inviteCode?: string; inviteLink?: string; data?: { tripId?: string | number; inviteCode?: string; inviteLink?: string } }
+import type { ApiEnvelope } from './api'
+
+export type TravelPeriod = { endDate: string; startDate: string }
+export type Region = { name: string; regionId: string }
+export type TripStatus = 'COLLECTING_RESPONSES' | 'PLANNING' | 'READY'
+
+export type TripDraft = { endDate: string; people: number; regionId: string; startDate: string }
+
+export type Trip = {
+  createdAt: string
+  inviteCode: string
+  inviteUrl: string
+  ownerId: string
+  participantLimit: number
+  region: Region
+  status: TripStatus
+  travelPeriod: TravelPeriod
+  tripId: string
+}
+
+export type TripListItem = {
+  endDate: string
+  isOwner: boolean
+  participantLimit: number
+  regionName: string
+  startDate: string
+  status: TripStatus
+  tripId: string
+}
+
+export type TripCreatePayload = {
+  participantLimit: number
+  regionId: string
+  travelPeriod: TravelPeriod
+}
+
+export type TripResponse = Trip | ApiEnvelope<Trip>
+export type TripListResponse = TripListItem[] | ApiEnvelope<TripListItem[]>

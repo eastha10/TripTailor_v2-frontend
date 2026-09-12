@@ -7,7 +7,7 @@
 .planner-field { min-width:0; height:65px; padding:0 34px; display:flex; align-items:center; gap:18px; border-right:1px solid var(--line); }
 .planner-field label,.planner-field small { display:block; font-size:.76rem; font-weight:700; color:var(--green); margin-bottom:4px; }
 .planner-field>span:not(.field-icon) { flex:1; min-width:0; }
-.field-icon { color:var(--green); font-size:1.7rem; }
+.field-icon { width:1.7rem; height:1.7rem; flex:none; color:var(--green); stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
 .stepper { display:flex; align-items:center; gap:18px; }
 .stepper button { width:37px; height:37px; border:1px solid var(--line); border-radius:50%; background:#fff; }
 .planner-field select,.planner-field input { max-width:100%; color:var(--ink); border:0; outline:0; background:transparent; font-size:1rem; }

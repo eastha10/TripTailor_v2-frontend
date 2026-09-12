@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate } from 'react-router'
+import { CalendarIcon, LocationIcon, PeopleIcon } from '../../components/icons/TripIcons'
 import { isAuthenticated } from '../../services/authService'
 import { createTrip } from '../../services/tripService'
 import type { TripDraft } from '../../types/trip'
@@ -29,9 +30,9 @@ export function Planner({ onCreated }: { onCreated: (url: string) => void }) {
   }
 
   return <section className="planner-section" id="planner"><div className="planner-copy"><p className="eyebrow">YOUR JOURNEY, YOUR WAY</p><h2>여행을 계획해 볼까요?</h2><p>인원, 지역, 기간만 알려주시면 나머지는 TripTailor가 맞춰 드릴게요.</p></div><form className="planner-bar" onSubmit={submit}>
-    <div className="planner-field people-control"><span className="field-icon">♧</span><div><label>인원</label><div className="stepper"><button type="button" aria-label="인원 줄이기" onClick={() => setDraft({ ...draft, people: Math.max(1, draft.people - 1) })}>−</button><strong>{draft.people}</strong><button type="button" aria-label="인원 늘리기" onClick={() => setDraft({ ...draft, people: Math.min(12, draft.people + 1) })}>＋</button></div></div></div>
-    <label className="planner-field"><span className="field-icon">⌖</span><span><small>지역</small><select value={draft.regionId} onChange={(e) => setDraft({ ...draft, regionId: e.target.value })}><option value="">가고 싶은 지역</option>{regions.map(region => <option key={region.id} value={region.id}>{region.name}</option>)}</select></span></label>
-    <div className="planner-field date-field"><span className="field-icon">□</span><span><small>기간</small><div className="date-inputs"><input aria-label="여행 시작일" type="date" min={today} value={draft.startDate} onChange={(e) => setDraft({ ...draft, startDate: e.target.value })} /><span>–</span><input aria-label="여행 종료일" type="date" min={draft.startDate || today} value={draft.endDate} onChange={(e) => setDraft({ ...draft, endDate: e.target.value })} /></div></span></div>
+    <div className="planner-field people-control"><PeopleIcon className="field-icon" /><div><label>인원</label><div className="stepper"><button type="button" aria-label="인원 줄이기" onClick={() => setDraft({ ...draft, people: Math.max(1, draft.people - 1) })}>−</button><strong>{draft.people}</strong><button type="button" aria-label="인원 늘리기" onClick={() => setDraft({ ...draft, people: Math.min(12, draft.people + 1) })}>＋</button></div></div></div>
+    <label className="planner-field"><LocationIcon className="field-icon" /><span><small>지역</small><select value={draft.regionId} onChange={(e) => setDraft({ ...draft, regionId: e.target.value })}><option value="">가고 싶은 지역</option>{regions.map(region => <option key={region.id} value={region.id}>{region.name}</option>)}</select></span></label>
+    <div className="planner-field date-field"><CalendarIcon className="field-icon" /><span><small>기간</small><div className="date-inputs"><input aria-label="여행 시작일" type="date" min={today} value={draft.startDate} onChange={(e) => setDraft({ ...draft, startDate: e.target.value })} /><span>–</span><input aria-label="여행 종료일" type="date" min={draft.startDate || today} value={draft.endDate} onChange={(e) => setDraft({ ...draft, endDate: e.target.value })} /></div></span></div>
     <button className="primary-button create-button" disabled={loading}>{loading ? '만드는 중…' : '여행 만들기'} <span>→</span></button>
   </form>{error && <p className="form-error" role="alert">{error}</p>}</section>
 }

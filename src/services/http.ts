@@ -1,7 +1,8 @@
 import axios, { AxiosError } from 'axios'
 import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 
-const apiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, '')
+const configuredApiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim()
+const apiBaseUrl = configuredApiBaseUrl === '/' ? '/' : configuredApiBaseUrl?.replace(/\/+$/, '')
 const requestLanguage = typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('en') ? 'en-US' : 'ko-KR'
 
 export const ACCESS_TOKEN_KEY = 'triptailor_access_token'

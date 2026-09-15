@@ -17,5 +17,5 @@ export function Header({ overlay = false }: { overlay?: boolean }) {
     setAuthenticated(false)
     navigate('/')
   }
-  return <header className={`site-header ${overlay && !scrolled ? 'header-overlay' : ''}`}><Link to="/" aria-label="TripTailor 홈"><Brand /></Link><nav aria-label="사용자 메뉴"><button className="language" type="button"><span>EN</span> / KO</button>{authenticated ? <><Link className="mypage-link" to="/mypage">마이페이지</Link><button className="avatar-button" type="button" onClick={signOut} title="로그아웃">나</button></> : <Link className="login-button" to="/login">로그인</Link>}</nav></header>
+  return <header className={`site-header ${overlay ? 'header-fixed' : ''} ${overlay && !scrolled ? 'header-overlay' : ''}`}><Link to="/" aria-label="TripTailor 홈"><Brand /></Link><nav aria-label="사용자 메뉴"><button className="language" type="button"><span>EN</span> / KO</button>{authenticated ? <><Link className="mypage-link" to="/mypage">마이페이지</Link><button className="avatar-button" type="button" onClick={signOut} title="로그아웃">나</button></> : <Link className="login-button" to="/login">로그인</Link>}</nav></header>
 }

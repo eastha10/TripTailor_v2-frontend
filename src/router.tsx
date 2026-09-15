@@ -11,7 +11,11 @@ export const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
-      { path: '/mypage', lazy: async () => ({ Component: (await import('./pages/MyPage')).MyPage }) },
+      {
+        path: '/mypage',
+        hydrateFallbackElement: <div className="workspace-state">여행을 불러오는 중…</div>,
+        lazy: async () => ({ Component: (await import('./pages/MyPage')).MyPage }),
+      },
       { path: '/trips/:tripId', element: <WorkspaceRoute /> },
     ],
   },

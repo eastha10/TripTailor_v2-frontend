@@ -6,17 +6,16 @@ React, TypeScript, Vite 기반의 TripTailor 프론트엔드입니다.
 
 ```bash
 npm install
-copy .env.example .env.local
 npm run dev
 ```
 
-`.env.local`의 `VITE_API_BASE_URL`에는 `/api/v1` 앞부분에 해당하는 백엔드 주소를 입력합니다.
+개발 서버는 `/api` 요청을 Vite 프록시를 통해 아래 Cloud Run 백엔드로 전달합니다. 운영 빌드에서는 같은 주소를 Axios의 기본 URL로 직접 사용합니다.
 
 ```dotenv
-VITE_API_BASE_URL=http://localhost:8000
+VITE_API_BASE_URL=https://triptailor-backend-206035909634.asia-northeast3.run.app
 ```
 
-API 주소가 비어 있으면 주요 화면은 데모 데이터로 동작합니다.
+다른 백엔드를 사용할 때만 `.env.local`에서 `VITE_API_BASE_URL`을 덮어쓰면 됩니다. 값에는 `/api/v1` 앞부분까지만 입력합니다. API 주소가 비어 있으면 주요 화면은 데모 데이터로 동작합니다.
 
 ## 주요 경로
 

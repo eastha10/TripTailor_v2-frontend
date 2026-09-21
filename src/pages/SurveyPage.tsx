@@ -13,9 +13,9 @@ import type { Invitation } from '../types/invitation'
 import type { AccommodationType, BudgetBand, PreferencePayload } from '../types/preference'
 
 const budgetChoices: { label: string; value: BudgetBand }[] = [
-  { label: '20만원 이하', value: 'LOW' },
-  { label: '20~40만원', value: 'MID' },
-  { label: '40만원 이상', value: 'HIGH' },
+  { label: '낮음', value: 'LOW' },
+  { label: '중간', value: 'MID' },
+  { label: '높음', value: 'HIGH' },
 ]
 const accommodationChoices: { label: string; value: AccommodationType }[] = [
   { label: '호텔', value: 'HOTEL' },

@@ -1,8 +1,10 @@
 import axios, { AxiosError } from 'axios'
 import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 
+const productionApiBaseUrl = 'https://triptailor-backend-206035909634.asia-northeast3.run.app'
 const configuredApiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim()
-const apiBaseUrl = configuredApiBaseUrl === '/' ? '/' : configuredApiBaseUrl?.replace(/\/+$/, '')
+const resolvedApiBaseUrl = configuredApiBaseUrl || (import.meta.env.PROD ? productionApiBaseUrl : undefined)
+const apiBaseUrl = resolvedApiBaseUrl === '/' ? '/' : resolvedApiBaseUrl?.replace(/\/+$/, '')
 const requestLanguage = typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('en') ? 'en-US' : 'ko-KR'
 
 export const ACCESS_TOKEN_KEY = 'triptailor_access_token'

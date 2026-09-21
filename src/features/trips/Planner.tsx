@@ -5,7 +5,7 @@ import { CalendarIcon, LocationIcon, PeopleIcon } from '../../components/icons/T
 import { isAuthenticated } from '../../services/authService'
 import { createTrip, getRegions } from '../../services/tripService'
 import { ApiError } from '../../services/http'
-import type { Region, TripDraft } from '../../types/trip'
+import type { RegionListItem, TripDraft } from '../../types/trip'
 
 export function Planner({ onCreated }: { onCreated: (url: string) => void }) {
   const navigate = useNavigate()
@@ -13,7 +13,7 @@ export function Planner({ onCreated }: { onCreated: (url: string) => void }) {
   const [draft, setDraft] = useState<TripDraft>({ people: 2, regionId: '', startDate: today, endDate: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [regions, setRegions] = useState<Region[]>([])
+  const [regions, setRegions] = useState<RegionListItem[]>([])
   const [regionsLoading, setRegionsLoading] = useState(true)
   const [regionsError, setRegionsError] = useState('')
 

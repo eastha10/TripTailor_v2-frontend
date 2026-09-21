@@ -1,8 +1,8 @@
 import { unwrapData, unwrapList } from '../types/api'
-import type { Region, RegionListResponse, Trip, TripCreatePayload, TripDraft, TripResponse } from '../types/trip'
+import type { RegionListItem, RegionListResponse, Trip, TripCreatePayload, TripDraft, TripResponse } from '../types/trip'
 import { deleteJson, getJson, postJson } from './http'
 
-export async function getRegions(): Promise<Region[]> {
+export async function getRegions(): Promise<RegionListItem[]> {
   return unwrapList(await getJson<RegionListResponse>('/api/v1/regions/'))
 }
 

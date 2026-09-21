@@ -1,6 +1,6 @@
 import type { AuthPayload, AuthResponse, LoginRequest, SignupRequest, UpdateProfileRequest, User, UserResponse } from '../types/auth'
 import { unwrapData } from '../types/api'
-import { clearAuthSession, deleteJson, getAccessToken, getJson, getRefreshToken, hasApiServer, patchJson, postJson, setAuthTokens } from './http'
+import { clearAuthSession, deleteJson, getAccessToken, getJson, getRefreshToken, patchJson, postJson, setAuthTokens } from './http'
 
 function getAuthPayload(response: AuthResponse): AuthPayload {
   return unwrapData(response)
@@ -15,11 +15,6 @@ function saveAuth(payload: AuthPayload, fallbackName: string) {
 }
 
 export async function login(request: LoginRequest) {
-  if (!hasApiServer()) {
-    setAuthTokens('demo-access-token', 'demo-refresh-token')
-    sessionStorage.setItem('triptailor_user_name', request.email.split('@')[0] || '여행자')
-    return
-  }
   const response = await postJson<AuthResponse, LoginRequest>('/api/v1/auth/sessions/', request)
   saveAuth(getAuthPayload(response), request.email.split('@')[0] || '여행자')
 }
@@ -31,7 +26,7 @@ export function isAuthenticated() {
 export async function logout() {
   const refreshToken = getRefreshToken()
   try {
-    if (hasApiServer() && refreshToken) {
+    if (refreshToken) {
       await deleteJson('/api/v1/auth/sessions/current/', { data: { refreshToken } })
     }
   } catch {
@@ -42,7 +37,6 @@ export async function logout() {
 }
 
 export async function signup(request: SignupRequest) {
-  if (!hasApiServer()) return
   await postJson<AuthResponse, SignupRequest>('/api/v1/auth/signup/', request)
 }
 

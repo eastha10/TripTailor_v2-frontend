@@ -2,6 +2,7 @@ import type { ApiEnvelope } from './api'
 
 export type TravelPeriod = { endDate: string; startDate: string }
 export type Region = { name: string; regionId: string }
+export type RegionListResponse = Region[] | ApiEnvelope<Region[]>
 export type TripStatus = 'COLLECTING_RESPONSES' | 'PLANNING' | 'READY'
 
 export type TripDraft = { endDate: string; people: number; regionId: string; startDate: string }

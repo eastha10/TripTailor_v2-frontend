@@ -3,8 +3,8 @@ import type { AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
 
 const productionApiBaseUrl = 'https://triptailor-backend-206035909634.asia-northeast3.run.app'
 const configuredApiBaseUrl = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim()
-const resolvedApiBaseUrl = configuredApiBaseUrl || (import.meta.env.PROD ? productionApiBaseUrl : undefined)
-const apiBaseUrl = resolvedApiBaseUrl === '/' ? '/' : resolvedApiBaseUrl?.replace(/\/+$/, '')
+const resolvedApiBaseUrl = configuredApiBaseUrl || (import.meta.env.PROD ? productionApiBaseUrl : '/')
+const apiBaseUrl = resolvedApiBaseUrl === '/' ? '/' : resolvedApiBaseUrl.replace(/\/+$/, '')
 const requestLanguage = typeof navigator !== 'undefined' && navigator.language.toLowerCase().startsWith('en') ? 'en-US' : 'ko-KR'
 
 export const ACCESS_TOKEN_KEY = 'triptailor_access_token'
@@ -35,16 +35,13 @@ export class ApiError extends Error {
   }
 }
 
-export function hasApiServer() {
-  return Boolean(apiBaseUrl)
-}
-
-export function requireApiServer() {
-  if (!apiBaseUrl) throw new ApiError('API 서버 주소가 설정되지 않았습니다.')
-}
-
 export function getAccessToken() {
-  return sessionStorage.getItem(ACCESS_TOKEN_KEY)
+  const token = sessionStorage.getItem(ACCESS_TOKEN_KEY)
+  if (token === 'demo-access-token') {
+    clearAuthSession()
+    return null
+  }
+  return token
 }
 
 export function getRefreshToken() {
@@ -157,25 +154,21 @@ apiClient.interceptors.response.use(
 )
 
 export async function getJson<TResponse>(path: string, config?: AxiosRequestConfig) {
-  requireApiServer()
   const response = await apiClient.get<TResponse>(path, config)
   return response.data
 }
 
 export async function postJson<TResponse, TBody>(path: string, body?: TBody, config?: AxiosRequestConfig) {
-  requireApiServer()
   const response = await apiClient.post<TResponse>(path, body, config)
   return response.data
 }
 
 export async function patchJson<TResponse, TBody>(path: string, body: TBody, config?: AxiosRequestConfig) {
-  requireApiServer()
   const response = await apiClient.patch<TResponse>(path, body, config)
   return response.data
 }
 
 export async function deleteJson<TResponse = void>(path: string, config?: AxiosRequestConfig) {
-  requireApiServer()
   const response = await apiClient.delete<TResponse>(path, config)
   return response.data
 }

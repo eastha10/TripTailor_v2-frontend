@@ -1,13 +1,12 @@
-import { unwrapData } from '../types/api'
-import type { Trip, TripCreatePayload, TripDraft, TripResponse } from '../types/trip'
-import { deleteJson, getJson, hasApiServer, postJson } from './http'
+import { unwrapData, unwrapList } from '../types/api'
+import type { Region, RegionListResponse, Trip, TripCreatePayload, TripDraft, TripResponse } from '../types/trip'
+import { deleteJson, getJson, postJson } from './http'
+
+export async function getRegions(): Promise<Region[]> {
+  return unwrapList(await getJson<RegionListResponse>('/api/v1/regions/'))
+}
 
 export async function createTrip(draft: TripDraft) {
-  if (!hasApiServer()) {
-    const code = Math.random().toString(36).slice(2, 9)
-    return `${window.location.origin}/trip/${code}`
-  }
-
   const payload: TripCreatePayload = {
     participantLimit: draft.people,
     regionId: draft.regionId,

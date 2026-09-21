@@ -15,7 +15,7 @@ npm run dev
 VITE_API_BASE_URL=https://triptailor-backend-206035909634.asia-northeast3.run.app
 ```
 
-다른 백엔드를 사용할 때만 `.env.local`에서 `VITE_API_BASE_URL`을 덮어쓰면 됩니다. 값에는 `/api/v1` 앞부분까지만 입력합니다. API 주소가 비어 있으면 주요 화면은 데모 데이터로 동작합니다.
+다른 백엔드를 사용할 때만 `.env.local`에서 `VITE_API_BASE_URL`을 덮어쓰면 됩니다. 값에는 `/api/v1` 앞부분까지만 입력합니다. API 요청에 실패하면 데모 데이터로 대체하지 않고 오류를 표시합니다.
 
 ## 주요 경로
 
@@ -35,7 +35,7 @@ VITE_API_BASE_URL=https://triptailor-backend-206035909634.asia-northeast3.run.ap
 - 운영 환경에서는 HTTPS와 서버 측 CSP, `X-Content-Type-Options`, 클릭재킹 방지 헤더를 적용해야 합니다.
 - 백엔드 배포 시 명세에 적힌 `config/setting.py`의 `FRONTEND_BASE_URL`을 실제 프론트엔드 주소로 변경해야 초대 URL이 올바르게 생성됩니다.
 
-현재 v2 문서에는 지역 목록 조회 API가 없고 강릉시의 `regionId`만 예시로 공개되어 있어, 여행 생성 화면은 강릉시만 제공합니다. 선호도 API 4개의 상세 요청/응답도 문서가 비어 있어 해당 서비스는 이전 명세와 호환되는 임시 타입으로 분리했습니다.
+여행 생성 화면은 `GET /api/v1/regions/`에서 지역 목록을 받아 선택합니다. 현재 배포된 백엔드는 이 API에 404를 반환하므로, 백엔드에서 지역 목록 API와 실제 지역 데이터가 제공되기 전까지 여행 생성 버튼은 비활성화됩니다. 선호도 API 4개의 상세 요청/응답은 이전 명세와 호환되는 임시 타입으로 분리했습니다.
 
 ## 확인
 

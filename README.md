@@ -35,7 +35,7 @@ VITE_API_BASE_URL=https://triptailor-backend-206035909634.asia-northeast3.run.ap
 - 운영 환경에서는 HTTPS와 서버 측 CSP, `X-Content-Type-Options`, 클릭재킹 방지 헤더를 적용해야 합니다.
 - 백엔드 배포 시 명세에 적힌 `config/setting.py`의 `FRONTEND_BASE_URL`을 실제 프론트엔드 주소로 변경해야 초대 URL이 올바르게 생성됩니다.
 
-여행 생성 화면은 인증 없이 `GET /api/v1/regions/`에서 지역 목록을 받아 선택합니다. 목록을 불러오지 못했거나 비어 있으면 여행 생성 버튼이 비활성화되고 오류를 표시합니다. 선호도 API 4개의 상세 요청/응답은 이전 명세와 호환되는 임시 타입으로 분리했습니다.
+여행 생성 화면은 인증 없이 `GET /api/v1/regions/`에서 지역 목록을 받아 선택합니다. 목록을 불러오지 못했거나 비어 있으면 여행 생성 버튼이 비활성화되고 오류를 표시합니다. 선호도 폼과 응답 타입은 v2 OpenAPI 명세의 예산·숙소 선택값 및 응답 구조를 따릅니다.
 
 ## 확인
 

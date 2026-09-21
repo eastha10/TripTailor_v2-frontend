@@ -13,18 +13,15 @@ import type { Invitation } from '../types/invitation'
 import type { AccommodationType, BudgetBand, PreferencePayload } from '../types/preference'
 
 const budgetChoices: { label: string; value: BudgetBand }[] = [
-  { label: '20만원 이하', value: 'UP_TO_200000_KRW' },
-  { label: '20~40만원', value: 'FROM_200000_TO_400000_KRW' },
-  { label: '40~60만원', value: 'FROM_400000_TO_600000_KRW' },
-  { label: '60만원 이상', value: 'OVER_600000_KRW' },
-  { label: '상관없어요', value: 'NO_PREFERENCE' },
+  { label: '20만원 이하', value: 'LOW' },
+  { label: '20~40만원', value: 'MID' },
+  { label: '40만원 이상', value: 'HIGH' },
 ]
 const accommodationChoices: { label: string; value: AccommodationType }[] = [
   { label: '호텔', value: 'HOTEL' },
-  { label: '리조트/풀빌라', value: 'RESORT_OR_POOL_VILLA' },
-  { label: '감성 숙소/펜션', value: 'EMOTIONAL_STAY_OR_PENSION' },
+  { label: '펜션/풀빌라', value: 'PENSION' },
   { label: '게스트하우스', value: 'GUESTHOUSE' },
-  { label: '상관없어요', value: 'NO_PREFERENCE' },
+  { label: '기타/상관없어요', value: 'ETC' },
 ]
 
 function formValue(form: FormData, key: string) {
@@ -95,14 +92,16 @@ export function SurveyPage({ inviteCode }: { inviteCode: string }) {
     event.preventDefault()
     if (!acceptedTripId) return
     const form = new FormData(event.currentTarget)
-    const displayName = formValue(form, 'displayName')
-    if (!displayName) return
+    const budgetBand = formValue(form, 'budgetBand') as BudgetBand | undefined
+    const accommodationType = formValue(form, 'accommodationType') as AccommodationType | undefined
+    if (!budgetBand || !accommodationType) {
+      setError('예산과 숙소 유형을 선택해 주세요.')
+      return
+    }
 
     const payload: PreferencePayload = {
-      displayName,
-      availableDateText: formValue(form, 'availableDateText'),
-      budgetBand: formValue(form, 'budgetBand') as BudgetBand | undefined,
-      accommodationType: formValue(form, 'accommodationType') as AccommodationType | undefined,
+      budgetBand,
+      accommodationType,
       mustHaves: formValue(form, 'mustHaves'),
       additionalNotes: formValue(form, 'additionalNotes'),
     }
@@ -128,5 +127,5 @@ export function SurveyPage({ inviteCode }: { inviteCode: string }) {
     return <main className="simple-page"><Header /><section className="center-card invitation-card"><p className="eyebrow">YOU ARE INVITED</p><h1>{invitation.regionName} 여행에<br />초대되었어요</h1><dl><div><dt>여행 기간</dt><dd>{invitation.travelPeriod.startDate} ~ {invitation.travelPeriod.endDate}</dd></div><div><dt>모집 인원</dt><dd>최대 {invitation.participantLimit}명</dd></div></dl>{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button" type="button" disabled={joining} onClick={joinTrip}>{joining ? '참여 중…' : '여행에 참여하기'}</button></section></main>
   }
 
-  return <main className="survey-page"><Header /><form className="survey" onSubmit={submit}><section className="invite-intro"><p>{isOwner ? '호스트님의 선호도를 알려주세요' : '여행 참여가 완료되었어요'}</p><h1><Brand /></h1><p>{invitation.regionName} 여행을 더 잘 맞추기 위해 몇 가지만 알려주세요.</p><span className="people-pill">최대 {invitation.participantLimit}명</span></section><SurveyInput title="이름 또는 닉네임" name="displayName" required placeholder="예: 지민" /><SurveyInput title="참여 가능한 날짜가 있나요?" name="availableDateText" placeholder="예: 9월 셋째 주 주말, 추석 연휴 등" /><ChoiceCard title="1인 예산은 어느 정도가 좋을까요?" name="budgetBand" choices={budgetChoices} /><ChoiceCard title="선호하는 숙소는?" name="accommodationType" choices={accommodationChoices} /><SurveyInput title="꼭 가고 싶은 곳이나 하고 싶은 게 있나요?" name="mustHaves" placeholder="가고 싶은 장소, 먹고 싶은 음식 등 자유롭게 적어주세요" /><SurveyInput title="그 외 하고 싶은 말" name="additionalNotes" placeholder="알레르기, 이동 제약, 기타 요청사항 등" />{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button submit-button" disabled={submitting}>{submitting ? '제출 중…' : '제출하기'}</button></form></main>
+  return <main className="survey-page"><Header /><form className="survey" onSubmit={submit}><section className="invite-intro"><p>{isOwner ? '호스트님의 선호도를 알려주세요' : '여행 참여가 완료되었어요'}</p><h1><Brand /></h1><p>{invitation.regionName} 여행을 더 잘 맞추기 위해 몇 가지만 알려주세요.</p><span className="people-pill">최대 {invitation.participantLimit}명</span></section><ChoiceCard title="1인 예산은 어느 정도가 좋을까요?" name="budgetBand" choices={budgetChoices} required /><ChoiceCard title="선호하는 숙소는?" name="accommodationType" choices={accommodationChoices} required /><SurveyInput title="꼭 가고 싶은 곳이나 하고 싶은 게 있나요?" name="mustHaves" placeholder="가고 싶은 장소, 먹고 싶은 음식 등 자유롭게 적어주세요" /><SurveyInput title="그 외 하고 싶은 말" name="additionalNotes" placeholder="알레르기, 이동 제약, 기타 요청사항 등" />{error && <p className="form-error" role="alert">{error}</p>}<button className="primary-button submit-button" disabled={submitting}>{submitting ? '제출 중…' : '제출하기'}</button></form></main>
 }

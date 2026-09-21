@@ -2,6 +2,13 @@ import { unwrapData, unwrapList } from '../types/api'
 import type { RegionListItem, RegionListResponse, Trip, TripCreatePayload, TripDraft, TripResponse } from '../types/trip'
 import { deleteJson, getJson, postJson } from './http'
 
+export type AiItineraryGeneration = {
+  error?: string | null
+  generationId: string
+  status: 'PENDING' | 'NORMALIZING' | 'ANALYZING' | 'RETRIEVING' | 'PLANNING' | 'VALIDATING' | 'REPAIRING' | 'NEEDS_INPUT' | 'NEEDS_REVIEW' | 'APPROVED' | 'FAILED'
+  unresolvedIssues?: string[]
+}
+
 export async function getRegions(): Promise<RegionListItem[]> {
   return unwrapList(await getJson<RegionListResponse>('/api/v1/regions/'))
 }
@@ -19,6 +26,13 @@ export async function createTrip(draft: TripDraft) {
 
 export async function getTrip(tripId: string): Promise<Trip> {
   return unwrapData(await getJson<TripResponse>(`/api/v1/trips/${tripId}/`))
+}
+
+export async function generateTripItinerary(tripId: string): Promise<AiItineraryGeneration> {
+  return unwrapData(await postJson<AiItineraryGeneration | { data: AiItineraryGeneration }, Record<string, never>>(
+    `/api/v1/trips/${tripId}/itinerary/generations/`,
+    {},
+  ))
 }
 
 export async function deleteTrip(tripId: string) {
